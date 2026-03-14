@@ -10,27 +10,27 @@ public class Organizer extends User {
 
 
     public Organizer(String username, String password) {
-        super(username, password);
-        this.managedHackathons = new ArrayList<>();
+           super(username, password);
+           this.managedHackathons = new ArrayList<>();
     }
     //Creazione di un hackathon.
     public Hackathon createHackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize,Location location) {
-            Hackathon newHackathon = new Hackathon(title, maxTeamNumber, minTeamNumber, maxTeamSize, minTeamSize, this, location);
-                managedHackathons.add(newHackathon);
-                return newHackathon;
-        }
+           Hackathon newHackathon = new Hackathon(title, maxTeamNumber, minTeamNumber, maxTeamSize, minTeamSize, this, location);
+                     managedHackathons.add(newHackathon);
+                     return newHackathon;
+    }
     //Apertura iscrizioni all'hackathon.
     public void openHackathonSubscription(Hackathon hackathon) {
-                    hackathon.setRegistrationStatus(true);
-        }
+                hackathon.setRegistrationStatus(true);
+    }
     //Chiusura iscrizioni
     public void closeHackathonSubscription(Hackathon hackathon) {
-            hackathon.setRegistrationStatus(false);
-        }
+                hackathon.setRegistrationStatus(false);
+    }
     // Avvio di un hackathon.
     public void startHackathon(Hackathon hackathon) {
                 hackathon.setStartDate(LocalDate.now());
-        }
+    }
 
     //Chiusura dell' hackathon.
     public void endHackathon(Hackathon hackathon, ArrayList(Team)) {
@@ -39,7 +39,7 @@ public class Organizer extends User {
     //Invito del giudice
     public void inviteJudge(Hackathon hackathon, Judge judge) {
                 hackathon.addJudge(judge);
-            }
+    }
 
 
 
