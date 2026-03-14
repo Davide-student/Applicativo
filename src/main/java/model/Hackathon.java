@@ -14,8 +14,9 @@ public class Hackathon
     private int maxTeamSize;    //Numero massimo di partecipanti per un solo team
     private int minTeamSize;    //Numero minimo di partecipanti per un solo team
 	private Date registrationStartDate;
+    private boolean registrationStatus;
 	private Date startDate;
-	private Date endDate;
+	private Date endDate;   //Viene valorizzata con la chiamata del metodo "end". Assume la data corrente alla chiamata
 	private File problemDescription;	//Valorizzato da un giudice
 	private ArrayList<Judge> judgesList;	//Lista dei giudici che si occupano dell'hackathon
 	private Organizer eventOrganizer;	//Indica l'organizzatore dell'hackathon
@@ -23,17 +24,21 @@ public class Hackathon
     private TreeMap<Integer, String> scores;  //Contiene i nomi dei team ed i relativi punteggi, ordinati secondo i punteggi (Ossia le chiavi)
 }
 
-public Hackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Date registrationStartDate, Organizer eventOrganizer, Location location)
+public Hackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Organizer eventOrganizer, Location location)
 {
         this.title = title;
         this.maxTeamNumber = maxTeamNumber;
         this.minTeamNumber = minTeamNumber;
         this.maxTeamSize = maxTeamSize;
         this.minTeamSize = minTeamSize:
-        this.registrationDate = registrationDate;
+        this.registrationDate = null;
         this.eventOrganizer = eventOrganizer;
         this.location = location;
-        scores = new TreeMap<Integer, String>();
+        this.startDate = null;
+        this.endDate = null;
+        this.judgeslist = new ArrayList<Judges>();
+        this.registrationStatus = false;    //Quando l'hackathon viene creato, le registrazioni sono chiuse
+        this.scores = new TreeMap<Integer, String>();
 }
 
 //Metodi setter e getter necessari
@@ -50,13 +55,18 @@ public void setEndDate(Date endDate)
 
 public void setDescription(File problemDescription)
 {
-    this.File = problemDescription;
+    this.problemDescription = problemDescription;
 }
 //Metodi della classe
 
 public void addJudge(Judge j)
 {
-    this.judgeList.add(j);
+    this.judgesList.add(j);
+}
+
+public void setRegistrationStatus(boolean status)
+{
+    this.registrationStatus = status;
 }
 
 public void addScoreForTeam(Team team)
@@ -74,6 +84,9 @@ public void end(ArrayList<Team> teams) //Alla fine dell'hackathon, viene definit
     {
         this.addScoreForTeam(t);    //Aggiunge il team alla classifica (TreeMap). "this" indica l'istanza                                            //corrente di class(L'hackathon)
     }
+
+    /*Aggiungere il set di "EndDate" con la data del giorno corrente, ossia quando l'evento termina.*/
+    
 }
 
 
