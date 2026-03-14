@@ -67,12 +67,12 @@ public void addScoreForTeam(Team team)
                                     //viene ordinata rispetto ai punteggi assegnati    
 }
 
-public void endHackathon(ArrayList<Team> teams) //Alla fine dell'hackathon, viene definita la classifica dei team
+//Questo metodo viene richiamato dal metodo in organizer "endHackathon" quando questo termina l'Hackathon.
+public void end(ArrayList<Team> teams) //Alla fine dell'hackathon, viene definita la classifica dei team
 {
     for(Team t: teams)
     {
-        this.addScoreForTeam(t);    //Aggiunge il team alla classifica (TreeMap). "this" indica l'istanza corrente di class           
-                                    //(L'hackathon)
+        this.addScoreForTeam(t);    //Aggiunge il team alla classifica (TreeMap). "this" indica l'istanza                                            //corrente di class(L'hackathon)
     }
 }
 
