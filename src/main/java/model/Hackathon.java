@@ -57,16 +57,22 @@ public void setDescription(File problemDescription)
 {
     this.problemDescription = problemDescription;
 }
+
+public void setRegistrationStatus(boolean status)
+{
+    this.registrationStatus = status;
+}
+
+/*public TreeMap<Integer, String> getScores() //restituisce la classifica di fine hackathon.
+{
+    return this.scores;
+}*/
+
 //Metodi della classe
 
 public void addJudge(Judge j)
 {
     this.judgesList.add(j);
-}
-
-public void setRegistrationStatus(boolean status)
-{
-    this.registrationStatus = status;
 }
 
 public void addScoreForTeam(Team team)
@@ -82,12 +88,13 @@ public void end(ArrayList<Team> teams) //Alla fine dell'hackathon, viene definit
 {
     for(Team t: teams)
     {
-        this.addScoreForTeam(t);    //Aggiunge il team alla classifica (TreeMap). "this" indica l'istanza                                            //corrente di class(L'hackathon)
+        this.addScoreForTeam(t);    //Aggiunge il team alla classifica (TreeMap). "this" indica l'istanza                                            //corrente di classe(L'hackathon)
     }
 
     /*Aggiungere il set di "EndDate" con la data del giorno corrente, ossia quando l'evento termina.*/
     
 }
+
 
 
 
