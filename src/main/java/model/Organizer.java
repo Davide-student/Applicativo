@@ -6,16 +6,16 @@ import java.util.List;
 
 public class Organizer extends User {
     //Lista degli hackaton gestiti.
-    private final List<Hackathon> managedHackathons;
+    private List<Hackathon> managedHackathons;
 
 
     public Organizer(String username, String password) {
            super(username, password);
-           this.managedHackathons = new ArrayList<>();
+           this.managedHackathons = new ArrayList<Hackathon>();
     }
     //Creazione di un hackathon.
-    public Hackathon createHackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize,Location location) {
-           Hackathon newHackathon = new Hackathon(title, maxTeamNumber, minTeamNumber, maxTeamSize, minTeamSize, this, location);
+    public Hackathon createHackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Location location) {
+           Hackathon newHackathon = new Hackathon(title, maxTeamNumber, minTeamNumber, maxTeamSize, minTeamSize, location);
                      managedHackathons.add(newHackathon);
                      return newHackathon;
     }
