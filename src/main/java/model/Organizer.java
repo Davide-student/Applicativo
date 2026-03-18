@@ -33,8 +33,8 @@ public class Organizer extends User {
     }
 
     //Chiusura dell' hackathon.
-    public void endHackathon(Hackathon hackathon, ArrayList(Team)) {
-                hackathon.end(Team);
+    public void endHackathon(Hackathon hackathon, ArrayList<Team> team) {
+                hackathon.end(team);
     }
     //Invito del giudice
     public void inviteJudge(Hackathon hackathon, Judge judge) {
