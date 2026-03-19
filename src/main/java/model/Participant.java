@@ -12,11 +12,7 @@ public class Participant extends User {
         newTeam.addMember(this);
     }
     /*
-    public void sendInviteToParticipant(Participant){
-
-    }
-    public void receiveInvite(Participant ) {
-
+    public void receiveTeamInvite() {
     }
     public void manageTeamInvite() {
     }
