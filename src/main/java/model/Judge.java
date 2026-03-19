@@ -2,13 +2,10 @@ package model;
 
 public class Judge extends User
 {
-    private ArrayList<Hackathon> judgedHackathons;
+    private ArrayList<Hackathon> judgedHackathons;  //Lista degli hackathon a cui "Judge" partecipa
+    private ArrayList<Invite> invitesList;  //Lista di inviti ricevuti da "Organizer" per essere giudice di un certo evento
 
-
-
-
-
-
+    
     //Costruttore
     public Judge(String username, String password)
     {
@@ -17,15 +14,6 @@ public class Judge extends User
     }
 
     //Metodi del domain model
-    public boolean acceptInvite(Hackathon hackathon)
-    {
-        judgeHackathons.add(hackathon);
-        return true;    //Il giudice ha accettato l'invito, l'organizzatore viene notificato
-    }
-    public boolean refuseInvite()
-    {
-        return false;   //Il giudice ha rifiutato l'invito, l'organizzatore viene notificato
-    }
     
     public void createOpinion(Update update, String description)
     {
@@ -35,11 +23,27 @@ public class Judge extends User
     }
     public void publishRating(Team team, int rating)
     {
-        team.ratings.add(rating);   //Viene aggiunto il voto di "istanza judge" alla lista dei voti associati al team.
+        team.addRating(rating);   //Viene aggiunto il voto di "istanza judge" alla lista dei voti associati al team.
     }
     public void publishProblemDescription(Hackathon hackathon, File description)
     {
         hackathon.setDescription(description);
     }
+
+    public void receiveInvite(Invite invite)    //In caso di rifiuto dell'invito, il "Judge" mittente non viene notificato.
+    {
+        this.invitesList.add(invite);
+    }
+    public void acceptInvite(Invite invite) 
+    {
+        this.judgeHackathon.add(invite.hackathon);
+        hackathon.addJudge(this);
+        this.inviteList.remove(invite); //L'invito è stato accettato, viene rimosso dalla "casella di posta" ("invitesList").
+    }
+    public void refuseInvite(Invite invite)
+    {
+        this.invitesList.remove(invite);
+    }
+
     
 }

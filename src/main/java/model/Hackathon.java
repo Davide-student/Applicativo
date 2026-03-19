@@ -91,7 +91,7 @@ public void end(ArrayList<Team> teams) //Alla fine dell'hackathon, viene definit
         this.addScoreForTeam(t);    //Aggiunge il team alla classifica (TreeMap). "this" indica l'istanza                                            //corrente di classe(L'hackathon)
     }
 
-    /*Aggiungere il set di "EndDate" con la data del giorno corrente, ossia quando l'evento termina.*/
+    this.endDate = LocalDate.now();
     
 }
 
