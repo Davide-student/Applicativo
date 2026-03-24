@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.io.File;
 import java.util.TreeMap;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Collections;
 
 public class Hackathon {
     private int code;    //Codice identificativo dell hackathon
@@ -20,7 +22,7 @@ public class Hackathon {
     private ArrayList<Judge> judgesList;    //Lista dei giudici che si occupano dell'hackathon
     private Organizer eventOrganizer;    //Indica l'organizzatore dell'hackathon
     private Location location; //Sede fisica in cui si tiene l'hackathon
-    private TreeMap<Integer, String> scores;  //Contiene i nomi dei team ed i relativi punteggi, ordinati secondo i punteggi (Ossia le chiavi)
+    private ArrayList<Team> scores;  //Contiene i nomi dei team ed i relativi punteggi, ordinati secondo i punteggi (Ossia le chiavi)
 
 
     public Hackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Organizer eventOrganizer, Location location) {
@@ -36,7 +38,7 @@ public class Hackathon {
         this.endDate = null;
         this.judgesList = new ArrayList<Judge>();
         this.registrationStatus = false;    //Quando l'hackathon viene creato, le registrazioni sono chiuse
-        this.scores = new TreeMap<Integer, String>();
+        this.scores = new ArrayList<Team>();
     }
 
     //Metodi setter e getter necessari
@@ -68,21 +70,11 @@ public class Hackathon {
             this.judgesList.add(j);
         }
 
-        public void addScoreForTeam(Team team) {
-            this.scores.put(team.getFinalProjectRating(), team.getName());
-            //Il team viene aggiunto alla lista di punteggi, quando poi il giudice
-            //termina l'hackathon, questa lista
-            //viene ordinata rispetto ai punteggi assegnati
-        }
-
         //Questo metodo viene richiamato dal metodo in organizer "endHackathon" quando questo termina l'Hackathon.
-        public void end(ArrayList<Team> teams) //Alla fine dell'hackathon, viene definita la classifica dei team
-        {
-            for (Team t : teams) {
-                this.addScoreForTeam(t);    //Aggiunge il team alla classifica (TreeMap). "this" indica l'istanza                                            //corrente di classe(L'hackathon)
-            }
+        public void end(ArrayList<Team> teams){ //Alla fine dell'hackathon, viene definita la classifica dei team
+            scores.addAll(teams);   //I team partecipanti all'hackathon vengono inseriti nella lista di classifica
+            Collections.sort(scores, new teamsComparator());    //La lista "Scores" viene ordinata rispetto al "finalProjectRating" di team. Così è creata la classifica finale
 
-            this.endDate = LocalDate.now();
 
         }
 }

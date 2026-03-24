@@ -15,7 +15,7 @@ public class Organizer extends User {
     }
     //Creazione di un hackathon.
     public Hackathon createHackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Location location) {
-           Hackathon newHackathon = new Hackathon(title, maxTeamNumber, minTeamNumber, maxTeamSize, minTeamSize, location);
+           Hackathon newHackathon = new Hackathon(title, maxTeamNumber, minTeamNumber, maxTeamSize, minTeamSize, this,  location);
                      managedHackathons.add(newHackathon);
                      return newHackathon;
     }
@@ -33,12 +33,12 @@ public class Organizer extends User {
     }
 
     //Chiusura dell' hackathon.
-    public void endHackathon(Hackathon hackathon, ArrayList<Team> team) {
-                hackathon.end(team);
+    public void endHackathon(Hackathon hackathon, ArrayList<Team> teams) {
+                hackathon.end(teams);
     }
     //Invito del giudice
-    public void inviteJudge(Hackathon hackathon, Judge judge) {
-                hackathon.addJudge(judge);
+    public void inviteJudge(Hackathon hackathon, String text, Judge judge){
+                Invite invite = new Invite(hackathon, text, judge, this);
     }
 
 
