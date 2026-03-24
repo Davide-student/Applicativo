@@ -2,11 +2,11 @@ package model;
 
 public class User
 {
-		protected String password[30];
-		protected String username[30]:
+		protected String password;
+		protected String username;
 		private boolean judgeFlag;	//Flag per specificare se l'utente si è proposto come giudice o meno (true = sì, false = no)
 		
-		public User()
+		public User(String username, String password)
 		{
 			judgeFlag = false;
 		}

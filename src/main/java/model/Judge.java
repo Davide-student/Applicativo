@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.io.File;
+
 public class Judge extends User
 {
     private ArrayList<Hackathon> judgedHackathons;  //Lista degli hackathon a cui "Judge" partecipa
@@ -10,7 +13,7 @@ public class Judge extends User
     public Judge(String username, String password)
     {
         super(username, password);  //Richiamo il costruttore di user
-        this.judgedHackathons = new ArrayLyst<Hackathon>();
+        this.judgedHackathons = new ArrayList<Hackathon>();
     }
 
     //Metodi del domain model
@@ -36,9 +39,9 @@ public class Judge extends User
     }
     public void acceptInvite(Invite invite) 
     {
-        this.judgeHackathon.add(invite.hackathon);
-        hackathon.addJudge(this);
-        this.inviteList.remove(invite); //L'invito è stato accettato, viene rimosso dalla "casella di posta" ("invitesList").
+        this.judgedHackathons.add(invite.getHackathon());
+        invite.getHackathon().addJudge(this);
+        this.invitesList.remove(invite); //L'invito è stato accettato, viene rimosso dalla "casella di posta" ("invitesList").
     }
     public void refuseInvite(Invite invite)
     {

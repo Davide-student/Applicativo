@@ -3,8 +3,8 @@ package model;
 
 public class Location
 {
-	private String address[40];
-	private String street[40];
+	private String address;
+	private String street;
 	private int CAP;
 	private int doorNumber;	//Indica l'interno in un edificio
     private Hackathon currentHackathon; //Questo attributo viene valorizzato mentre la sede è occupata per un                                                                 //hackathon. Quando la sede non è più occupata, viene valorizzato null e 

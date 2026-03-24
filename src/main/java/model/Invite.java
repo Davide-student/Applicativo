@@ -21,11 +21,19 @@ public class Invite
         this.sender = sender;
     }
     //Costruttore per invite a "Judge"
-    public invite(Hackathon hackathon, String text, Judge receiver, Organizer sender)
+    public Invite(Hackathon hackathon, String text, Judge receiver, Organizer sender)
     {
         this.hackathon = hackathon;
         this.text = text;
         this.receiver = receiver;
         this.sender = sender;
+    }
+    public Team getTeam(){
+        return this.team;
+    }
+
+    //Metodi getter e setter
+    public Hackathon getHackathon(){
+        return this.hackathon;
     }
 }

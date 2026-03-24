@@ -1,10 +1,9 @@
 package model;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Participant extends User {
 
-    private Team team;
+    protected Team team;
     private ArrayList<Invite> invitesList;
     
     //Costruttore

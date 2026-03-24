@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 
 public class Leader extends Participant {
     //Costruttore.
@@ -7,11 +8,11 @@ public class Leader extends Participant {
            super(username, password);
             this.team = team;   //Il leader ha sicuramente un team.
     }
-    public void publishTeamUpdate(Team team, Update update) {
-                team.addUpdate(update);
+    public void publishTeamUpdate(Team team, String title, File description, int releaseNumber) {   //Viene creato un'update
+        Update update = new Update(title, description, releaseNumber);                                   //La descrizione è intesa come file di testo
+        team.addUpdate(update);
     }
     public void createInvite(String text, Participant receiver){
-        Invite invite = new invite(text, receiver, this); //Viene creato un invito per cui si specificano mittente e destinatario
-        invite.inviteMember(this.team, invite);
+        Invite invite = new Invite(this.team, text, receiver, this); //Viene creato un invito per cui si specificano mittente e destinatario
     }
 }
