@@ -4,7 +4,7 @@ public class User
 {
 		protected String password;
 		protected String username;
-		private boolean judgeFlag;	//Flag per specificare se l'utente si è proposto come giudice o meno (true = sì, false = no)
+		protected boolean judgeFlag;	//Flag per specificare se l'utente si è proposto come giudice o meno (true = sì, false = no)
 		
 		public User(String username, String password)
 		{
@@ -22,13 +22,7 @@ public class User
 		}
 		public void signAsJudge()	//L'utente sceglie se proporsi come giudice o meno
 		{
-			if(judgeFlag == false)
-			{
-				judgeFlag = true;
-			}else
-			{
-				judgeFlag = false;
-			}
+			this.judgeFlag = true;
 		}
 		public String getPassword()
 		{
@@ -39,9 +33,10 @@ public class User
 			return username;
 		}
 		//metodi del model
-		public void subscribeToHackathon()
+		public void subscribeToHackathon(Hackathon hackathon)
 		{
-			
+			Participant participant = new Participant(this.username, this.password);
+			hackathon.addParticipant(participant);
 		}
 
 

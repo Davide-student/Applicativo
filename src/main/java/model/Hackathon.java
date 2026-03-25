@@ -1,10 +1,7 @@
 package model;
 
 import java.time.LocalDate;
-import java.io.File;
-import java.util.TreeMap;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Collections;
 
 public class Hackathon {
@@ -18,12 +15,12 @@ public class Hackathon {
     private boolean registrationStatus;
     private LocalDate startDate;
     private LocalDate endDate;   //Viene valorizzata con la chiamata del metodo "end". Assume la data corrente alla chiamata
-    private File problemDescription;    //Valorizzato da un giudice
+    private String problemDescription;    //Valorizzato da un giudice
     private ArrayList<Judge> judgesList;    //Lista dei giudici che si occupano dell'hackathon
     private Organizer eventOrganizer;    //Indica l'organizzatore dell'hackathon
     private Location location; //Sede fisica in cui si tiene l'hackathon
     private ArrayList<Team> scores;  //Contiene i nomi dei team ed i relativi punteggi, ordinati secondo i punteggi (Ossia le chiavi)
-
+    private ArrayList<Participant> participantsList;
 
     public Hackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Organizer eventOrganizer, Location location) {
         this.title = title;
@@ -37,6 +34,7 @@ public class Hackathon {
         this.startDate = null;
         this.endDate = null;
         this.judgesList = new ArrayList<Judge>();
+        this.participantsList = new ArrayList<Participant>();
         this.registrationStatus = false;    //Quando l'hackathon viene creato, le registrazioni sono chiuse
         this.scores = new ArrayList<Team>();
     }
@@ -51,7 +49,7 @@ public class Hackathon {
             this.endDate = endDate;
         }
 
-        public void setDescription(File problemDescription) {
+        public void setDescription(String problemDescription) {
             this.problemDescription = problemDescription;
         }
 
@@ -66,8 +64,8 @@ public class Hackathon {
 
     //Metodi della classe
 
-        public void addJudge(Judge j) {
-            this.judgesList.add(j);
+        public void addJudge(Judge judge) {
+            this.judgesList.add(judge);
         }
 
         //Questo metodo viene richiamato dal metodo in organizer "endHackathon" quando questo termina l'Hackathon.
@@ -76,5 +74,8 @@ public class Hackathon {
             Collections.sort(scores, new teamsComparator());    //La lista "Scores" viene ordinata rispetto al "finalProjectRating" di team. Così è creata la classifica finale
 
 
+        }
+        public void addParticipant(Participant participant){
+            this.participantsList.add(participant);
         }
 }

@@ -1,10 +1,10 @@
 package model;
-import java.io.File;
+
 import java.util.ArrayList;
 
 public class Update
 {
-    private File description;   //Contiene la descrizione dell'update
+    private String description;   //Contiene la descrizione dell'update
     private String title;
     private int releaseNumber;  //Indica la versione associata all'update, da intendersi SOLO come numero intero (La versione viene specificata dal leader)
     private ArrayList<Opinion> opinions;
@@ -12,7 +12,7 @@ public class Update
 
     //Construttore
     //"reaseNumber" potrebbe anche essere una string a cui viene concatenato il "Numero di version".
-    public Update(String title, File description, int releaseNumber /*String releaseNumber*/)
+    public Update(String title, String description, int releaseNumber /*String releaseNumber*/)
     {
         this.title = title;
         this.description = description;
@@ -24,7 +24,7 @@ public class Update
     {
         return this.title;
     }
-    public File getDescription()
+    public String getDescription()
     {
         return this.description;
     }

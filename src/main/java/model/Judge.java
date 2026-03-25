@@ -17,7 +17,16 @@ public class Judge extends User
     }
 
     //Metodi del domain model
-    
+    public int unsignFromJudge()   //L'utente decide di non essere più considerato come giudice nella piattaforma
+    {
+        if(this.judgedHackathons.isEmpty())
+        {
+            this.judgeFlag = false;
+            return 1;
+        }else{
+            return 0;   //L'utente si sta occupando di alcuni Hackathon come giudice, non può ritirarsi.
+        }
+    }
     public void createOpinion(Update update, String description)
     {
             Opinion opinion = new Opinion(this.username, description); //Viene create un'opinione (L'username passato corrisponde username)
@@ -28,7 +37,7 @@ public class Judge extends User
     {
         team.addRating(rating);   //Viene aggiunto il voto di "istanza judge" alla lista dei voti associati al team.
     }
-    public void publishProblemDescription(Hackathon hackathon, File description)
+    public void publishProblemDescription(Hackathon hackathon, String description)
     {
         hackathon.setDescription(description);
     }
