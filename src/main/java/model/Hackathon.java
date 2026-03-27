@@ -35,7 +35,7 @@ public class Hackathon {
         this.endDate = null;
         this.judgesList = new ArrayList<Judge>();
         this.participantsList = new ArrayList<Participant>();
-        this.registrationStatus = false;    //Quando l'hackathon viene creato, le registrazioni sono chiuse
+        this.registrationStatus = true;    //Quando l'hackathon viene creato, le registrazioni sono aperte
         this.scores = new ArrayList<Team>();
     }
 
@@ -55,6 +55,17 @@ public class Hackathon {
 
         public void setRegistrationStatus(boolean status) {
             this.registrationStatus = status;
+        }
+        public boolean getRegistrationStatus() {
+            return this.registrationStatus;
+        }
+        public String getTitle()
+        {
+            return this.title;
+        }
+        public LocalDate getStartDate()
+        {
+            return this.startDate;
         }
 
     /*public TreeMap<Integer, String> getScores() //restituisce la classifica di fine hackathon.
