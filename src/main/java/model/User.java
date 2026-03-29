@@ -6,13 +6,12 @@ public class User
 {
 		protected String password;
 		protected String username;
-		protected boolean judgeFlag;	//Flag per specificare se l'utente si è proposto come giudice o meno (true = sì, false = no)
+
 		
 		public User(String username, String password)
 		{
 			this.username = username;
 			this.password = password;
-			judgeFlag = false;
 		}
 		
 		//getter e setter
@@ -23,10 +22,6 @@ public class User
 		public void setUsername(String username)
 		{
 			this.username = username;
-		}
-		public void signAsJudge()	//L'utente sceglie se proporsi come giudice o meno
-		{
-			this.judgeFlag = true;
 		}
 		public String getPassword()
 		{

@@ -13,6 +13,7 @@ public class Hackathon {
     private int minTeamSize;    //Numero minimo di partecipanti per un solo team
     private LocalDate registrationStartDate;
     private boolean registrationStatus;
+    private boolean hackathonStatus;    //Se settato a false, l'hackathon è terminato.
     private LocalDate startDate;
     private LocalDate endDate;   //Viene valorizzata con la chiamata del metodo "end". Assume la data corrente alla chiamata
     private String problemDescription;    //Valorizzato da un giudice
@@ -21,6 +22,7 @@ public class Hackathon {
     private Location location; //Sede fisica in cui si tiene l'hackathon
     private ArrayList<Team> scores;  //Contiene i nomi dei team ed i relativi punteggi, ordinati secondo i punteggi (Ossia le chiavi)
     private ArrayList<Participant> participantsList;
+
 
     public Hackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Organizer eventOrganizer, Location location) {
         this.title = title;
@@ -40,6 +42,10 @@ public class Hackathon {
     }
 
     //Metodi setter e getter necessari
+
+        public Organizer getEventOrganizer() {
+        return this.eventOrganizer;
+        }
 
         public void setStartDate(LocalDate startDate) {
             this.startDate = startDate;
@@ -67,7 +73,6 @@ public class Hackathon {
         {
             return this.startDate;
         }
-
     /*public TreeMap<Integer, String> getScores() //restituisce la classifica di fine hackathon.
     {
         return this.scores;

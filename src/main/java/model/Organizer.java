@@ -6,17 +6,17 @@ import java.util.List;
 
 public class Organizer extends User {
     //Lista degli hackaton gestiti.
-    private List<Hackathon> managedHackathons;
+    private ArrayList<Hackathon> organizedHackathons;
 
 
     public Organizer(String username, String password) {
            super(username, password);
-           this.managedHackathons = new ArrayList<Hackathon>();
+           this.organizedHackathons = new ArrayList<Hackathon>();
     }
     //Creazione di un hackathon.
     public Hackathon createHackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Location location) {
            Hackathon newHackathon = new Hackathon(title, maxTeamNumber, minTeamNumber, maxTeamSize, minTeamSize, this,  location);
-                     managedHackathons.add(newHackathon);
+                     organizedHackathons.add(newHackathon);
                      return newHackathon;
     }
     //Apertura iscrizioni all'hackathon.
@@ -41,9 +41,20 @@ public class Organizer extends User {
                 Invite invite = new Invite(hackathon, text, judge, this);
     }
 
+    //metodi setter e getter
+    public int getNumberOfOrganizedHackathons()
+    {
+        return this.organizedHackathons.size();
+    }
 
-
-
+    public ArrayList<Hackathon> getOrganizedHackathons()
+    {
+        return this.organizedHackathons;
+    }
+    public void addOrganizedHackathon(Hackathon hackathon)
+    {
+        this.organizedHackathons.add(hackathon);
+    }
 
 
 

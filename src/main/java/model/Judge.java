@@ -15,23 +15,25 @@ public class Judge extends User
         super(username, password);  //Richiamo il costruttore di user
         this.judgedHackathons = new ArrayList<Hackathon>();
     }
+    public void addJudgedHackathon(Hackathon hackathon)
+    {
+        this.judgedHackathons.add(hackathon);
+    }
 
     //Metodi getter e setter
     public ArrayList<Hackathon> getJudgedHackathons()
     {
         return this.judgedHackathons;
     }
-    //Metodi del domain model
-    public int unsignFromJudge()   //L'utente decide di non essere più considerato come giudice nella piattaforma
+    public int getJudgedHackathonsNumber()
     {
-        if(this.judgedHackathons.isEmpty())
-        {
-            this.judgeFlag = false;
-            return 1;
-        }else{
-            return 0;   //L'utente si sta occupando di alcuni Hackathon come giudice, non può ritirarsi.
-        }
+        return this.judgedHackathons.size();
     }
+    public void setInvitesList(ArrayList<Invite> invitesList)
+    {
+        this.invitesList = invitesList;
+    }
+    //Metodi del domain model
     public void createOpinion(Update update, String description)
     {
             Opinion opinion = new Opinion(this.username, description); //Viene create un'opinione (L'username passato corrisponde username)

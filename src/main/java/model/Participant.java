@@ -10,6 +10,7 @@ public class Participant extends User {
     public Participant(String username, String password) {
         super(username, password);
         this.team = null;   //Inizialmente il partecipante non fa parte di team;
+        this.invitesList = new ArrayList<Invite>();
     }
     //Creazione team.
     public void createHackathonTeam(String teamName) {
@@ -27,5 +28,9 @@ public class Participant extends User {
     public void refuseInvite(Invite invite) {  //In caso di rifiuto dell'invito, non è prevista alcuna notifica al leader mittente.
     
         this.invitesList.remove(invite);
+    }
+    //Metodi setter e getter
+    public Team getTeam() {
+        return this.team;
     }
 }
