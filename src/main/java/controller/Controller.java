@@ -31,6 +31,8 @@ public class Controller {
         this.organizersList = new ArrayList<Organizer>();
         this.locationsList = new ArrayList<Location>();
         this.leadersList = new ArrayList<Leader>();
+        this.currentUser = null;
+        this.currentUserRole = null;
         Organizer organizer = new Organizer("davideo4", "superlol");
         Location location = new Location("Via felicità", "Marianella", 20, 2);
         Hackathon hackathon = new Hackathon("Hackathon figo", 1, 1, 1, 1, organizer, location);
@@ -47,7 +49,10 @@ public class Controller {
         for(User user : membersList) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {    //Controlla "mentre" le credenziali non sono riscontrate
                 this.currentUser = user;
-                this.currentUserRole = this.searchForUserInRoles(user);
+                if(currentUserRole == null)     //Se l'utente ha già effettuato il login almeno una volta, il suo ruolo non deve essere resettato
+                {
+                    this.currentUserRole = this.searchForUserInRoles(user);
+                }
                 return true;
             }
         }
@@ -57,7 +62,7 @@ public class Controller {
 
 
     public boolean checkRegistrationAvailability(String username, String password){   //Controlla se esistono utenti con il nickname selezionato
-        if(username.equals("") || password.equals(""))    //L'utente non ha inserito credenziali di registrazione, non può registrarsi
+        if(username.isEmpty() || password.isEmpty())    //L'utente non ha inserito credenziali di registrazione, non può registrarsi
         {
             return false;
         }
@@ -102,6 +107,20 @@ public class Controller {
         return "User";  //L'utente è un comune user
     }
 
+    public boolean subscribeUserToHackathon(String hackathonTitle)
+    {
+
+        for(Hackathon hackathon: hackathonsList) {
+            if(hackathon.getTitle().equals(hackathonTitle)) {
+
+                Participant participant = new Participant(currentUser.getUsername(), currentUser.getPassword());
+                hackathon.addParticipant(participant);
+                currentUserRole = "Participant";
+                return true;
+            }
+        }
+        return false;
+    }
 
     //Metodi getter e setter
     public String getCurrentUserRole()
@@ -111,6 +130,10 @@ public class Controller {
     public String getCurrentUserUsername()
     {
         return currentUser.getUsername();
+    }
+    public User getCurrentUser()
+    {
+        return currentUser;
     }
     public Object[][] getUserTableData(Object [][] data)    //Questo metodo serve ad ottenere i dati da immettere nella JTable mostrata nella home
     {
@@ -126,6 +149,7 @@ public class Controller {
         }
         return data;
     }
+
 
     public int getNumberOfHackathonWithOpenSubscriptions()
     {
