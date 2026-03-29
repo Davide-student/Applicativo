@@ -3,6 +3,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import controller.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class Home {
@@ -13,11 +15,11 @@ public class Home {
     private JLabel loggedAsHomeLabel;
     private JLabel staticRoleHomeLabel;
     private JPanel titlePanel;
-    private JPanel userInfoPanel;
     private JLabel adaptiveHomeTableTitleLabel;
     private JTable homeTable;
-    private JPanel homeTablePanel;
     private JScrollPane homeTableScrollPanel;
+    private JTextField hackathonTitleTextField;
+    private JButton subscribeToHackathonButton;
 
 
     public Home(Controller controller, JFrame loginFrame) {
@@ -29,17 +31,33 @@ public class Home {
         roleHomeLabel.setText(controller.getCurrentUserRole()); //Label che mostra il nome dell'utente dopo il login
         homeFrame.pack();
         homeFrame.setVisible(true);
+        //System.out.println(controller.getCurrentUserRole());
         if (controller.getCurrentUserRole().equals("User")) {
-            String[] columnNames = {"Title", "Start date", "Subscribe button"};
+            String[] columnNames = {"Title", "Start date"};
             Object[][] data = null;
             data = controller.getUserTableData(data);
-            /*for(int row = 0; row < data.length; row++ )
-            {
-               data[row][2] = 
-            }*/
             adaptiveHomeTableTitleLabel.setText("Hackathons with active subscriptions");
+            //DefaultTableModel tableButtonsModel = new DefaultTableModel(subscriptionButtons, buttonName);
             DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
             homeTable.setModel(tableModel);
+            subscribeToHackathonButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    String hackathonTitle = hackathonTitleTextField.getText();
+                    if(controller.subscribeUserToHackathon(hackathonTitle))
+                    {
+                        homeFrame.setVisible(false);
+                        loginFrame.setVisible(true);
+                        homeFrame.dispose();
+                    }else
+                    {
+                        JOptionPane.showMessageDialog(homeFrame, "Couldn't find the specified hackathon title");
+                    }
+                }
+
+            });
+            //homeButtonsTable.setModel(tableButtonsModel);
             //Bisogna stampare una lista di tutti gli hackathon con iscrizioni aperte
         } else if (controller.getCurrentUserRole().equals("Judge")) {
             //Bisogna stampare una lista di tutti gli hackathon gestiti dal giudice
