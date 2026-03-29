@@ -16,6 +16,11 @@ public class Judge extends User
         this.judgedHackathons = new ArrayList<Hackathon>();
     }
 
+    //Metodi getter e setter
+    public ArrayList<Hackathon> getJudgedHackathons()
+    {
+        return this.judgedHackathons;
+    }
     //Metodi del domain model
     public int unsignFromJudge()   //L'utente decide di non essere più considerato come giudice nella piattaforma
     {
