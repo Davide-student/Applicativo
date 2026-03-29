@@ -19,7 +19,11 @@ public class Home {
     private JTable homeTable;
     private JScrollPane homeTableScrollPanel;
     private JTextField hackathonTitleTextField;
-    private JButton subscribeToHackathonButton;
+    private JButton hackathonActionButton;
+    private JButton changeJudgeStatusButton;
+    private JLabel hackathonActionButtonLabel;
+    private JButton createTeamButton;
+    private JButton logoutButton;
 
 
     public Home(Controller controller, JFrame loginFrame) {
@@ -30,9 +34,27 @@ public class Home {
         usernameHomeLabel.setText(controller.getCurrentUserUsername());
         roleHomeLabel.setText(controller.getCurrentUserRole()); //Label che mostra il nome dell'utente dopo il login
         homeFrame.pack();
-        homeFrame.setVisible(true);
+        //homeFrame.setVisible(true);
         //System.out.println(controller.getCurrentUserRole());
+
+
+
+        //Gestione home utente
         if (controller.getCurrentUserRole().equals("User")) {
+            createTeamButton.setVisible(false);
+            hackathonActionButtonLabel.setText("Enter the title of the hackathon you want to subscribe to");
+            changeJudgeStatusButton.setVisible(true);
+            changeJudgeStatusButton.setText("Sign as Judge");
+            changeJudgeStatusButton.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e)
+               {
+                    controller.makeUserJudge();
+                    homeFrame.setVisible(false);
+                    loginFrame.setVisible(true);
+                    homeFrame.dispose();
+               }
+            });
             String[] columnNames = {"Title", "Start date"};
             Object[][] data = null;
             data = controller.getUserTableData(data);
@@ -40,7 +62,7 @@ public class Home {
             //DefaultTableModel tableButtonsModel = new DefaultTableModel(subscriptionButtons, buttonName);
             DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
             homeTable.setModel(tableModel);
-            subscribeToHackathonButton.addActionListener(new ActionListener() {
+            hackathonActionButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
@@ -59,14 +81,137 @@ public class Home {
             });
             //homeButtonsTable.setModel(tableButtonsModel);
             //Bisogna stampare una lista di tutti gli hackathon con iscrizioni aperte
+
+
+
+
+
+
+
+
+
+
+            //Gestione home giudice
         } else if (controller.getCurrentUserRole().equals("Judge")) {
+            if (controller.isJudgeBusy(controller.getCurrentUserUsername()))    //Se il giudice è si occupa di almeno un hackathon allora true
+            {
+                hackathonActionButtonLabel.setText("Enter the title of the hackathon you want to manage");
+                adaptiveHomeTableTitleLabel.setText("Your managed hackathons");
+                hackathonActionButton.setText("Go to hackathon");
+                changeJudgeStatusButton.setVisible(false);//L'utente è un giudice impegnato, non può cambiare ruolo
+                String[] columnNames = {"Title", "Start date"};
+                Object[][] data = null;
+                data = controller.getJudgedHackathonsTable(data);
+                DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+                homeTable.setModel(tableModel);
+                hackathonActionButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e)   //
+                    {
+                        String hackathonTitle = hackathonTitleTextField.getText();   //Prende il titolo dell'hackathon inserito
+                        JudgeHackathonManager judgeManagerGUI = new JudgeHackathonManager(controller, loginFrame, homeFrame, hackathonTitle);
+                        judgeManagerGUI.judgeManagerFrame.setVisible(true);
+                        homeFrame.setVisible(false);
+                    }
+                });
+            } else {    //Il giudice non si occupa di nessun hackathon
+                hackathonActionButton.setVisible(false);
+                hackathonActionButtonLabel.setVisible(false);
+                changeJudgeStatusButton.setText("Unsign from judge");
+                changeJudgeStatusButton.setVisible(true);   //Il giudice non assegnato ad alcun hackathon dedice di non fare più il giudice
+                changeJudgeStatusButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        controller.makeJudgeUser();
+                        homeFrame.setVisible(false);
+                        loginFrame.setVisible(true);
+                        homeFrame.dispose();
+                    }
+                });
+            }
+
+
             //Bisogna stampare una lista di tutti gli hackathon gestiti dal giudice
-        } else if (controller.getCurrentUserRole().equals("Participant")) {
+
+
+
+
+
+
+            //Gestione home partecipante
+        } else if (controller.getCurrentUserRole().equals("Participant") ) {
+            if (controller.checkParticipantTeam()) {    //Se true, l'utente appartiene ad un team.
+
+            } else {
+                //Rimossi tutti gli elementi che mostrano informazioni riguardanti l'hackathon, il partecipante non fa parte di un team
+                hackathonActionButton.setVisible(false);
+                hackathonActionButtonLabel.setVisible(false);
+                changeJudgeStatusButton.setVisible(false);
+                homeTable.setVisible(false);
+                hackathonTitleTextField.setVisible(false);
+                adaptiveHomeTableTitleLabel.setText("You're not in a team, create one or wait for an invite");
+                createTeamButton.setText("Create Team");
+            }
             //Bisogna stampare una lista contenente solo l'hackathon a cui l'utente è iscritto
-        } else if (controller.getCurrentUserRole().equals("Organizer")) {
+
+
+
+
+
+
+
+
+
+
+
+
+            //Gestione home leader
+        }else if(controller.getCurrentUserRole().equals("Leader")) {
+            //Qui deve esserci la pubblicazione di update per il team
+            //Solo il leader può visionare le opinioni sugli update.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //Gestione home organizzatore
+        }else if (controller.getCurrentUserRole().equals("Organizer")) {
+            hackathonActionButtonLabel.setText("Enter the title of the hackathon you want to manage");
+            changeJudgeStatusButton.setVisible(false);
+            createTeamButton.setVisible(false);
+            hackathonActionButton.setText("Go to hackathon");
+            adaptiveHomeTableTitleLabel.setText("Your organized hackathons");
+
+            //hackathonActionButton.addActionListener(new ActionListener() {});*    Action listener che deve porta in "OrganizerHackathonManager"
+
+
+            String[] columnNames = {"Title", "Start date"};
+            Object[][] data = null;
+            data = controller.getOrganizedHackathonsTable(data);
+            DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+            homeTable.setModel(tableModel);
             //Bisogna stampare una lista contenente tutti gli hackathon organizzati dall'organizzatore
         }
-
+        logoutButton.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               controller.logout();
+               homeFrame.setVisible(false);
+               loginFrame.setVisible(true);
+               homeFrame.dispose();
+           }
+        });
 
     }
 
