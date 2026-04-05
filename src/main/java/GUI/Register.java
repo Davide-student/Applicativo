@@ -21,7 +21,7 @@ public class Register {
         registerFrame = new JFrame("Register");
         registerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         registerFrame.setContentPane(registerPanel);
-        registerFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        registerFrame   .setExtendedState(JFrame.MAXIMIZED_BOTH);
         registerFrame.pack();
         goBackToLoginButton.addActionListener(new ActionListener() {
             @Override

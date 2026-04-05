@@ -2,7 +2,6 @@ package GUI;
 import controller.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -19,7 +18,6 @@ public class Login {
     private final Controller controller;   //Riferimento al controller del BCE pattern, final perché una volta inizializzato dal costruttore "Login()" non deve essere modificato.
 
     public static void main(String[] args) {
-
         loginFrame = new JFrame("Login");    //Creazione jframe
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setContentPane(new Login().loginPanel);
