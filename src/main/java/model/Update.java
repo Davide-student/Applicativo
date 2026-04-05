@@ -6,17 +6,20 @@ public class Update
 {
     private String description;   //Contiene la descrizione dell'update
     private String title;
-    private int releaseNumber;  //Indica la versione associata all'update, da intendersi SOLO come numero intero (La versione viene specificata dal leader)
+    private String releaseNumber;  //Indica la versione associata all'update, da intendersi SOLO come numero intero (La versione viene specificata dal leader)
+    private Team team;
     private ArrayList<Opinion> opinions;
     
 
     //Construttore
     //"reaseNumber" potrebbe anche essere una string a cui viene concatenato il "Numero di version".
-    public Update(String title, String description, int releaseNumber /*String releaseNumber*/)
+    public Update(String title, String description, String releaseNumber, Team team /*String releaseNumber*/)
     {
         this.title = title;
         this.description = description;
         this.releaseNumber = releaseNumber;
+        this.opinions = new ArrayList<Opinion>();
+        this.team = team;
     }
 
     //metodi setter e getter
@@ -28,7 +31,7 @@ public class Update
     {
         return this.description;
     }
-    public int getReleaseNumber()
+    public String getRelease()
     {
         return this.releaseNumber;
     }
@@ -36,6 +39,10 @@ public class Update
     public void addOpinion(Opinion opinion)   //"text" indica il testo incluso nell'opinione del giudice
     {
         this.opinions.add(opinion);
+    }
+    public ArrayList<Opinion> getOpinions()
+    {
+        return this.opinions;
     }
     
 

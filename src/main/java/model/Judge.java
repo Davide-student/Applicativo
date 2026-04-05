@@ -1,5 +1,6 @@
 package model;
 
+import javax.lang.model.type.ArrayType;
 import java.util.ArrayList;
 import java.io.File;
 
@@ -14,16 +15,28 @@ public class Judge extends User
     {
         super(username, password);  //Richiamo il costruttore di user
         this.judgedHackathons = new ArrayList<Hackathon>();
+        this.invitesList = new ArrayList<Invite>();
     }
     public void addJudgedHackathon(Hackathon hackathon)
     {
         this.judgedHackathons.add(hackathon);
     }
-
+    public void removeJudgedHackathon(Hackathon hackathon)
+    {
+        this.judgedHackathons.remove(hackathon);
+    }
+    public void removeInvite(Invite invite)
+    {
+        this.invitesList.remove(invite);
+    }
     //Metodi getter e setter
     public ArrayList<Hackathon> getJudgedHackathons()
     {
         return this.judgedHackathons;
+    }
+    public ArrayList<Invite> getInvitesList()
+    {
+        return this.invitesList;
     }
     public int getJudgedHackathonsNumber()
     {
@@ -34,19 +47,24 @@ public class Judge extends User
         this.invitesList = invitesList;
     }
     //Metodi del domain model
+    public void addInvite(Invite invite)
+    {
+        this.invitesList.add(invite);
+    }
+    /*
     public void createOpinion(Update update, String description)
     {
             Opinion opinion = new Opinion(this.username, description); //Viene create un'opinione (L'username passato corrisponde username)
                                                                        //"username" del giudice che crea l'opinione.
             update.addOpinion(opinion);  //L'opinione viene assegnata all'update
-    }
+    }*/
     public void publishRating(Team team, int rating)
     {
         team.addRating(rating);   //Viene aggiunto il voto di "istanza judge" alla lista dei voti associati al team.
     }
     public void publishProblemDescription(Hackathon hackathon, String description)
     {
-        hackathon.setDescription(description);
+        hackathon.setProblemDescription(description);
     }
 
     public void receiveInvite(Invite invite)    //In caso di rifiuto dell'invito, il "Judge" mittente non viene notificato.
@@ -64,5 +82,10 @@ public class Judge extends User
         this.invitesList.remove(invite);
     }
 
+    public void publishOpinion(Update update, String description)
+    {
+        Opinion opinion = new Opinion(this, description);
+        update.addOpinion(opinion);
+    }
     
 }

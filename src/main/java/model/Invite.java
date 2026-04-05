@@ -33,6 +33,18 @@ public class Invite
     }
 
     //Metodi getter e setter
+    public String getText()
+    {
+        return this.text;
+    }
+    public User getSender()
+    {
+        return this.sender;
+    }
+    public User getReceiver()
+    {
+        return this.receiver;
+    }
     public Hackathon getHackathon(){
         return this.hackathon;
     }

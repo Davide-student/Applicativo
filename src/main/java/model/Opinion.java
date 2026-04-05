@@ -5,13 +5,21 @@ package model;
 public class Opinion
 {
     private String description;
-    private String judgeUsername;   //All'opinione viene associato solo "username" di giudice e non un reference di tipo "Judge".
+    private Judge judge;
 
     //Costruttore
-    public Opinion(String judgeUsername, String description)
+    public Opinion(Judge judge, String description)
     {
-        this.judgeUsername = judgeUsername;
+        this.judge = judge;
         this.description = description;
+    }
+    public String getDescription()
+    {
+        return this.description;
+    }
+    public Judge getJudge()
+    {
+        return this.judge;
     }
 
 }

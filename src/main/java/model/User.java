@@ -32,10 +32,11 @@ public class User
 			return username;
 		}
 		//metodi del model
-		public void subscribeToHackathon(Hackathon hackathon)
+		public Participant subscribeToHackathon(Hackathon hackathon)
 		{
-			Participant participant = new Participant(this.username, this.password);
+			Participant participant = new Participant(this.username, this.password, hackathon);
 			hackathon.addParticipant(participant);
+			return participant;
 		}
 
 

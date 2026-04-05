@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Hackathon {
-    private int code;    //Codice identificativo dell hackathon
     private String title;
     private int maxTeamNumber;  //Numero massimo di team per l'inizio dell'evento
     private int minTeamNumber;  //Numero minimo di team per l'inizio dell'evento
@@ -22,7 +21,7 @@ public class Hackathon {
     private Location location; //Sede fisica in cui si tiene l'hackathon
     private ArrayList<Team> scores;  //Contiene i nomi dei team ed i relativi punteggi, ordinati secondo i punteggi (Ossia le chiavi)
     private ArrayList<Participant> participantsList;
-
+    private ArrayList<Team> teamsList;
 
     public Hackathon(String title, int maxTeamNumber, int minTeamNumber, int maxTeamSize, int minTeamSize, Organizer eventOrganizer, Location location) {
         this.title = title;
@@ -30,49 +29,81 @@ public class Hackathon {
         this.minTeamNumber = minTeamNumber;
         this.maxTeamSize = maxTeamSize;
         this.minTeamSize = minTeamSize;
-        this.registrationStartDate = null;
+        this.registrationStartDate = LocalDate.now();
         this.eventOrganizer = eventOrganizer;
+        this.hackathonStatus = true;
         this.location = location;
+        this.problemDescription = "";
         this.startDate = null;
         this.endDate = null;
         this.judgesList = new ArrayList<Judge>();
-        this.participantsList = new ArrayList<Participant>();
+        this.teamsList = new ArrayList<Team>();
         this.registrationStatus = true;    //Quando l'hackathon viene creato, le registrazioni sono aperte
         this.scores = new ArrayList<Team>();
+        this.participantsList = new ArrayList<>();
     }
 
     //Metodi setter e getter necessari
-
-        public Organizer getEventOrganizer() {
+    public ArrayList<Judge> getJudgesList()
+    {
+        return this.judgesList;
+    }
+    public int getMaxParticipantsNumber()   //Restituisce il numero massimo di partecipanti possibili per l'hackathon
+    {
+        return maxTeamNumber * maxTeamSize;
+    }
+    public int getMaxTeamNumber() {
+        return this.maxTeamNumber;
+    }
+    public ArrayList<Participant> getParticipantsList() {
+        return this.participantsList;
+    }
+    public void addTeam(Team team){
+        this.teamsList.add(team);
+    }
+    public boolean getHackathonStatus() {
+        return this.hackathonStatus;
+    }
+    public ArrayList<Team> getScores() {
+        return this.scores;
+    }
+    public Organizer getEventOrganizer() {
         return this.eventOrganizer;
-        }
+    }
 
-        public void setStartDate(LocalDate startDate) {
-            this.startDate = startDate;
-        }
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
 
-        public void setEndDate(LocalDate endDate) {
-            this.endDate = endDate;
-        }
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 
-        public void setDescription(String problemDescription) {
-            this.problemDescription = problemDescription;
-        }
-
-        public void setRegistrationStatus(boolean status) {
-            this.registrationStatus = status;
-        }
-        public boolean getRegistrationStatus() {
-            return this.registrationStatus;
-        }
-        public String getTitle()
-        {
-            return this.title;
-        }
-        public LocalDate getStartDate()
-        {
-            return this.startDate;
-        }
+    public void setRegistrationStatus(boolean status) {
+        this.registrationStatus = status;
+    }
+    public boolean getRegistrationStatus() {
+        return this.registrationStatus;
+    }
+    public ArrayList<Team> getTeams() {
+        return this.teamsList;
+    }
+    public String getTitle()
+    {
+        return this.title;
+    }
+    public LocalDate getStartDate()
+    {
+        return this.startDate;
+    }
+    public String getProblemDescription()
+    {
+        return this.problemDescription;
+    }
+    public void setProblemDescription(String problemDescription)
+    {
+        this.problemDescription = problemDescription;
+    }
     /*public TreeMap<Integer, String> getScores() //restituisce la classifica di fine hackathon.
     {
         return this.scores;
@@ -80,18 +111,49 @@ public class Hackathon {
 
     //Metodi della classe
 
-        public void addJudge(Judge judge) {
-            this.judgesList.add(judge);
+    public void removeAllJudges()
+    {
+        this.judgesList.clear();
+    }
+    public void removeAllParticipants()
+    {
+        this.participantsList.clear();
+    }
+    public void addJudge(Judge judge) {
+        this.judgesList.add(judge);
+    }
+
+    //Questo metodo viene richiamato dal metodo in organizer "endHackathon" quando questo termina l'Hackathon.
+    public void end(){ //Alla fine dell'hackathon, viene definita la classifica dei team
+        for(Team team : teamsList){ //Calcolo i punteggi finali dei team
+            team.computeFinalProjectRating();
         }
-
-        //Questo metodo viene richiamato dal metodo in organizer "endHackathon" quando questo termina l'Hackathon.
-        public void end(ArrayList<Team> teams){ //Alla fine dell'hackathon, viene definita la classifica dei team
-            scores.addAll(teams);   //I team partecipanti all'hackathon vengono inseriti nella lista di classifica
-            Collections.sort(scores, new teamsComparator());    //La lista "Scores" viene ordinata rispetto al "finalProjectRating" di team. Così è creata la classifica finale
-
-
+        scores.addAll(teamsList);   //I team partecipanti all'hackathon vengono inseriti nella lista di classifica
+        Collections.sort(scores, new teamsComparator());    //La lista "Scores" viene ordinata rispetto al "finalProjectRating" di team. Così è creata la classifica finale
+        //Restano i riferimenti ai singoli partecipanti, servono a visionare la classifica
+        participantsList.clear();
+        teamsList.clear();
+        this.hackathonStatus = false;
+    }
+    public void addParticipant(Participant participant){
+        this.participantsList.add(participant);
+        if(participantsList.size() == getMaxParticipantsNumber())
+        {
+            setRegistrationStatus(false);
         }
-        public void addParticipant(Participant participant){
-            this.participantsList.add(participant);
+    }
+    public ArrayList<Participant> removeUnsubscribedParticipants()
+        {
+            ArrayList <Participant> unsubscribedParticipants = new ArrayList<Participant>();
+
+            for (Participant participant: participantsList)
+            {
+                if(participant.getTeam() == null)
+                {
+                    unsubscribedParticipants.add(participant);
+                }
+            }
+            participantsList.removeAll(unsubscribedParticipants);   //Rimuove i partecipanti non iscritti dalla lista dei partecipanti
+            return unsubscribedParticipants;
         }
 }

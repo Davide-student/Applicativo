@@ -19,26 +19,22 @@ public class Organizer extends User {
                      organizedHackathons.add(newHackathon);
                      return newHackathon;
     }
-    //Apertura iscrizioni all'hackathon.
-    public void openHackathonSubscription(Hackathon hackathon) {
-                hackathon.setRegistrationStatus(true);
-    }
     //Chiusura iscrizioni
     public void closeHackathonSubscription(Hackathon hackathon) {
                 hackathon.setRegistrationStatus(false);
-    }
-    // Avvio di un hackathon.
-    public void startHackathon(Hackathon hackathon) {
                 hackathon.setStartDate(LocalDate.now());
     }
-
     //Chiusura dell' hackathon.
-    public void endHackathon(Hackathon hackathon, ArrayList<Team> teams) {
-                hackathon.end(teams);
+    public void endHackathon(Hackathon hackathon) {
+                hackathon.end();
     }
     //Invito del giudice
-    public void inviteJudge(Hackathon hackathon, String text, Judge judge){
+    public Invite inviteJudge(Hackathon hackathon, String text, Judge judge){
                 Invite invite = new Invite(hackathon, text, judge, this);
+                return invite;
+    }
+    public void removeOrganizedHackathon(Hackathon hackathon) {
+        organizedHackathons.remove(hackathon);
     }
 
     //metodi setter e getter
