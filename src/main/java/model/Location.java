@@ -36,7 +36,7 @@ public class Location
     {
         return this.CAP;
     }
-    public int doorNumber()
+    public int getDoorNumber()
     {
         return this.doorNumber;
     }

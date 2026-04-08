@@ -23,7 +23,7 @@ public class Team {
         this.teamMembers.add(member);
     }
     public void addRating(int rating){
-        this.ratings.add(rating);
+        this.ratings.add(rating);   
     }
     public void computeFinalProjectRating() {
         for(Integer rating : ratings) {

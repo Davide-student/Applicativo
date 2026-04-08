@@ -44,6 +44,17 @@ public class Hackathon {
     }
 
     //Metodi setter e getter necessari
+    public int getMinTeamNumber() {
+        return this.minTeamNumber;
+    }
+    public int getMaxTeamSize()
+    {
+        return this.maxTeamSize;
+    }
+    public int getMinTeamSize()
+    {
+        return this.minTeamSize;
+    }
     public ArrayList<Judge> getJudgesList()
     {
         return this.judgesList;
@@ -92,6 +103,10 @@ public class Hackathon {
     {
         return this.title;
     }
+    public LocalDate getRegistrationStartDate()
+    {
+       return this.registrationStartDate;
+    }
     public LocalDate getStartDate()
     {
         return this.startDate;
@@ -100,9 +115,16 @@ public class Hackathon {
     {
         return this.problemDescription;
     }
+    public void setHackathonStatus(boolean status) {
+        this.hackathonStatus = status;
+    }
     public void setProblemDescription(String problemDescription)
     {
         this.problemDescription = problemDescription;
+    }
+    public Location getLocation()
+    {
+        return this.location;
     }
     /*public TreeMap<Integer, String> getScores() //restituisce la classifica di fine hackathon.
     {
@@ -122,14 +144,18 @@ public class Hackathon {
     public void addJudge(Judge judge) {
         this.judgesList.add(judge);
     }
+    public void computeScores()
+    { for(Team team : teamsList){ //Calcolo i punteggi finali dei team
+        team.computeFinalProjectRating();
+    }
+        scores.addAll(teamsList);   //I team partecipanti all'hackathon vengono inseriti nella lista di classifica
+        Collections.sort(scores, new teamsComparator());    //La lista "Scores" viene ordinata rispetto al "finalProjectRating" di team. Così è creata la classifica finale
+
+    }
 
     //Questo metodo viene richiamato dal metodo in organizer "endHackathon" quando questo termina l'Hackathon.
     public void end(){ //Alla fine dell'hackathon, viene definita la classifica dei team
-        for(Team team : teamsList){ //Calcolo i punteggi finali dei team
-            team.computeFinalProjectRating();
-        }
-        scores.addAll(teamsList);   //I team partecipanti all'hackathon vengono inseriti nella lista di classifica
-        Collections.sort(scores, new teamsComparator());    //La lista "Scores" viene ordinata rispetto al "finalProjectRating" di team. Così è creata la classifica finale
+        computeScores();
         //Restano i riferimenti ai singoli partecipanti, servono a visionare la classifica
         participantsList.clear();
         teamsList.clear();
@@ -150,6 +176,7 @@ public class Hackathon {
             {
                 if(participant.getTeam() == null)
                 {
+                    System.out.println(participant.getUsername() + " has no team");
                     unsubscribedParticipants.add(participant);
                 }
             }

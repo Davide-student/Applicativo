@@ -84,7 +84,7 @@ public class Judge extends User
 
     public void publishOpinion(Update update, String description)
     {
-        Opinion opinion = new Opinion(this, description);
+        Opinion opinion = new Opinion(this, description, update);
         update.addOpinion(opinion);
     }
     

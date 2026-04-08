@@ -12,13 +12,14 @@ public class Invite
 
     //Signatures differenti per i diversi inviti
     
-    //Costruttore per invite a "Participant
+    //Costruttore per invite a "Participant"
     public Invite(Team team, String text, Participant receiver, Leader sender)  //Costruttore usato da istanze di "Leader"
     {
         this.team = team;
         this.text = text;
         this.receiver = receiver;
         this.sender = sender;
+        this.hackathon = null;
     }
     //Costruttore per invite a "Judge"
     public Invite(Hackathon hackathon, String text, Judge receiver, Organizer sender) //Costruttore usato da instanze di "Organizer"
@@ -27,6 +28,7 @@ public class Invite
         this.text = text;
         this.receiver = receiver;
         this.sender = sender;
+        this.team = null;
     }
     public Team getTeam(){
         return this.team;
