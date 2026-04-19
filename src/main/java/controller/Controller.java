@@ -10,6 +10,9 @@ import DAO.*;
 import postgresDAOImplementation.*;
 
 
+/**
+ * Gestisce l'interazione tra il package model, il package DAO e il package GUI.
+ */
 public class Controller {
     private ArrayList<Hackathon> hackathonsList;
     private ArrayList<User> membersList;
@@ -22,6 +25,9 @@ public class Controller {
     private User currentUser;   //Rappresenta l'utente che ha effettuato il login
     private String currentUserRole;    //Rappresenta il ruolo occupato dall'utente che ha effettuato il login, sulla piattaforma
 
+    /**
+     * Istanzia un nuovo controller.
+     */
     public Controller()
     {
         this.hackathonsList = new ArrayList<Hackathon>();
@@ -41,6 +47,9 @@ public class Controller {
 
     /*Metodi interazione iniziale DAO*/
 
+    /**
+     * Preleva i dati dal database sfruttando le interfacce dao e li memorizza nelle apposite strutture dati (Dati transienti).
+     */
     public void retrieveDataAndInitialize()
     {
         DAORetrieverI dao = new DAORetriever();
@@ -178,7 +187,7 @@ public class Controller {
             t.getHackathon().addTeam(t);
             teamsList.add(t);
         }
-        //retrieve partecipanti
+        //retrieve partecipan   ti
         for(int count = 0; count < participantUsernames.size(); count++)
         {
             Participant p = new Participant(participantUsernames.get(count), participantPasswords.get(count), findHackathon(participantHackathons.get(count)));
@@ -243,7 +252,7 @@ public class Controller {
                     for (Participant p : t.getTeamMembers()) {
                         h.addParticipant(p);
                     }
-                }
+                }   
                 if (h.getHackathonStatus() == false) //L'hackathon è terminato ed è necessario ottenere la classifica finale
                 {
                     h.computeScores();
@@ -256,8 +265,12 @@ public class Controller {
     //Fine retrieve
 
 
-
-
+    /**
+     * Trova il leader specificato.
+     *
+     * @param leaderUsername username del leader
+     * @return un reference al leader trovato
+     */
     public Leader findLeader(String leaderUsername)
     {
         for(Leader l : leadersList)
@@ -270,6 +283,12 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Trova il partecipante specificato.
+     *
+     * @param participantUsername username del partecipante
+     * @return un reference al partecipante trovato
+     */
     public Participant findParticipant(String participantUsername)
     {
         for(Participant p : participantsList)
@@ -281,6 +300,13 @@ public class Controller {
         }
         return null;
     }
+
+    /**
+     * Trova l'update specificato.
+     *
+     * @param updateTitle titolo dell'update
+     * @return un reference all'update trovate
+     */
     public Update findUpdate(String updateTitle)
     {
         for(Team t : teamsList)
@@ -296,6 +322,12 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Trova il giudice specificato.
+     *
+     * @param judgeUsername username del giudice
+     * @return un reference al giudice trovato
+     */
     public Judge findJudge(String judgeUsername)
     {
         for(Judge j : judgesList)
@@ -308,6 +340,12 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Trova il team specificato.
+     *
+     * @param teamName the team name
+     * @return the team
+     */
     public Team findTeam(String teamName)
     {
         for(Team t : teamsList)
@@ -320,6 +358,12 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Trova l'organizzatore specificato.
+     *
+     * @param organizerUsername username dell'organizzatore
+     * @return reference all'organizzatore trovato
+     */
     public Organizer findOrganizer(String organizerUsername)
     {
         for(Organizer o : organizersList)
@@ -332,6 +376,12 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Trova la sede specificata.
+     *
+     * @param locationAddress indirizzo della sede
+     * @return reference alla sede trovata
+     */
     public Location findLocation(String locationAddress)
     {
         for(Location l : locationsList)
@@ -344,6 +394,12 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Trova l'hackathon specificato.
+     *
+     * @param hackathonTitle titolo dell hackathon
+     * @return reference all'hackathon trovato
+     */
     public Hackathon findHackathon(String hackathonTitle)
     {
         for(Hackathon h : hackathonsList)
@@ -361,6 +417,13 @@ public class Controller {
 
     /*Metodi interazione iniziale DAO*/
 
+    /**
+     * Controlla la validità delle credenziali inserite.
+     *
+     * @param username username utente
+     * @param password password utente
+     * @return true se l'utente è stato trovato, false altrimenti
+     */
     public boolean checkCredentials(String username, String password)   //Effettua un controllo per verificare l'esistenza delle credenziali inserite dall'utente a login
     {
         for(User user : membersList) {
@@ -378,11 +441,12 @@ public class Controller {
     }
 
 
-
-
-
-
-
+    /**
+     * Crea un team per il leader.
+     *
+     * @param teamTitle nome del team
+     * @return true se il nome specificato non è già usato, false altrimenti
+     */
     /*Codice gestione leader*/
     public boolean createTeam(String teamTitle)
     {
@@ -416,6 +480,14 @@ public class Controller {
     }
 
 
+    /**
+     * Crea e pubblica un aggiornamento per il team.
+     *
+     * @param title       titolo aggiornamento
+     * @param description descrizione aggiornamento
+     * @param version     versione aggiornamentio
+     * @return true se il titolo aggiornamento non è già stato usato, false altrimenti
+     */
     public boolean addUpdate(String title, String description, String version)
     {
         Leader leader = getCurrentLeader();
@@ -433,6 +505,13 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Invita un partecipante all'hackathon ad entrare nel team del leader.
+     *
+     * @param username username partecipante
+     * @param message  messaggio di invito
+     * @return true se il partecipante viene trovato, false altrimenti
+     */
     public boolean inviteParticipant(String username, String message)
     {
         Leader leader = getCurrentLeader();
@@ -452,6 +531,20 @@ public class Controller {
     }
     /*Codice gestione leader*/
 
+    /**
+     * Crea un nuovo hackathon.
+     *
+     * @param title           titolo hackathon
+     * @param maxNumberTeam   numero massimo di team creabili per l'hackathon
+     * @param minNumberTeam   numero minimo di team creabili per l'hackathon
+     * @param maxTeamSize     grandezza massima di un team
+     * @param minTeamSize     grandezza minima di un team
+     * @param locationAddress indirizzo della sede in cui si terrà l'hackathon
+     * @param street          strada della sede in cui si terrà l'hackathon
+     * @param CAP             CAP della sede in cui si terrà l'hackathon
+     * @param door            Interno della sede in cui si terrà l'hackathon
+     * @return true se il titolo dell'hackathon è disponibile, false altrimenti
+     */
     /*Codice gestione organizzatore*/
     public boolean createHackathon(String title, String maxNumberTeam, String minNumberTeam, String maxTeamSize, String minTeamSize, String locationAddress, String street, String CAP, String door )
     {
@@ -492,6 +585,11 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Termina l'hackathon specificato.
+     *
+     * @param hackathonTitle titolo hackathon
+     */
     public void endHackathon(String hackathonTitle)
     {
         Organizer hackathonOrganizer = getCurrentOrganizer();
@@ -518,6 +616,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Chiude le registrazioni all'hackathon specificato.
+     *
+     * @param hackathonTitle titolo hackathon
+     */
     public void closeHackathonRegister(String hackathonTitle)
     {
         Organizer hackathonOrganizer = null;
@@ -545,6 +648,14 @@ public class Controller {
     }
 
 
+    /**
+     * Invia un invito ad un giudice, da parte di un organizzatore.
+     *
+     * @param sender         organizzatore mittente
+     * @param receiver       giudice destinatario
+     * @param description    messaggio allegato all'invito
+     * @param hackathonTitle titolo dell'hackathon per cui l'invito è valido
+     */
     public void manageJudgeInvite(String sender, String receiver, String description, String hackathonTitle)   //L'organizzatore invita un giudice ad un hackathon
     {
         Organizer organizer = getCurrentOrganizer();
@@ -567,6 +678,12 @@ public class Controller {
     }
 
 
+    /**
+     * Controlla che il titolo di hackathon inserito dall'organizzatore sia davvero presente tra i titoli degli hackathon che gestisce
+     *
+     * @param hackathonTitle titolo hackathon
+     * @return true se il titolo è valido, false altrimenti
+     */
     public boolean checkOrganizerHackathonTitle(String hackathonTitle)
     {
         Organizer organizer = getCurrentOrganizer();
@@ -581,6 +698,12 @@ public class Controller {
     /*Codice gestione organizzatore*/
 
 
+    /**
+     * Cerca il giudice nella lista dei giudici iscritti.
+     *
+     * @param username username giudice
+     * @return true se username specificato corrisponde ad un giudice
+     */
     public boolean searchForJudge(String username)
     {
         for(Judge j : judgesList) {
@@ -592,13 +715,13 @@ public class Controller {
     }
 
 
-
-
-
-
-
-
-
+    /**
+     * Controlla se le credenziali inserite per la registrazione sono disponibili per l'utilizzo.
+     *
+     * @param username username fornito
+     * @param password password fornita
+     * @return true se username è disponibile, false altrimenti
+     */
     public boolean checkRegistrationAvailability(String username, String password){   //Controlla se esistono utenti con il nickname selezionato
         if(username.isEmpty() || password.isEmpty())    //L'utente non ha inserito credenziali di registrazione, non può registrarsi
         {
@@ -613,6 +736,13 @@ public class Controller {
                 addMember(username, password);
                 return true;
     }
+
+    /**
+     * Aggiunge un utente alla piattaforma.
+     *
+     * @param username username utente
+     * @param password password utente
+     */
     public void addMember(String username, String password)   //Un utente si è registrato, viene aggiunto alla piattaforma
     {
             DAOUpdaterI dao = new DAOUpdater();
@@ -627,6 +757,11 @@ public class Controller {
 
     /*Codice gestione home partecipante*/
 
+    /**
+     * Controlla se il partecipante chiamante fa parte di un team
+     *
+     * @return true se il partecipante è in un team, false altrimenti
+     */
     public boolean checkParticipantTeam()
     {
         for(Participant participant : participantsList) {
@@ -641,6 +776,12 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Accetta l'invito inviato da un leader ad un partecipante, per il team specificato.
+     *
+     * @param teamTitle nome team
+     * @return true se l'invito esiste davvero, false altrimenti
+     */
     public boolean acceptParticipantInvite(String teamTitle) {
         DAOUpdaterI dao = new DAOUpdater();
         Participant participant = getCurrentParticipant();
@@ -664,6 +805,12 @@ public class Controller {
         return false;   //Il team specificato non ha mandato inviti o non esiste
     }
 
+    /**
+     * Rifiuta l'invito inviato da un leader ad un partecipante, per il team specificato.
+     *
+     * @param teamTitle nome team
+     * @return true se l'invito esiste davvero, false altrimenti
+     */
     public boolean refuseParticipantInvite(String teamTitle)
     {
         DAOUpdaterI dao = new DAOUpdater();
@@ -683,6 +830,9 @@ public class Controller {
         return false;   //L'invito da parte del team specificato non esiste
     }
 
+    /**
+     * Fa si che il leader chiamante lasci l'hackathon corrente terminato.
+     */
     public void leaveHackathon()    //Solo il leader deve uscire manualmente dell'hackathon
     {
         DAOUpdaterI dao = new DAOUpdater();
@@ -714,14 +864,12 @@ public class Controller {
     /*Codice gestione home partecipante*/
 
 
-
-
-
-
-
-
-
-
+    /**
+     * Controlla se il giudice specificato si sta occupando di almeno un hackathon.
+     *
+     * @param username username giudice
+     * @return true se il giudice si occupa di almeno un hackathon, false altrimenti
+     */
     /*Codice gestione home giudice*/
     public boolean isJudgeBusy(String username) //Serve a capire se il giudice può cambiare ruolo(tornare ad essere un utente standard)
     {
@@ -736,6 +884,9 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Rende l'utente chiamante un giudice.
+     */
     public void makeUserJudge()  //L'utente decide di segnarsi come giudice per gli hackathon
     {
         DAOUpdaterI dao = new DAOUpdater();
@@ -744,6 +895,10 @@ public class Controller {
         dao.insertJudge(judge.getUsername(), judge.getPassword());
         this.currentUserRole = "Judge";
     }
+
+    /**
+     * Rende il giudice chiamante un utente.
+     */
     public void makeJudgeUser() //Il giudice decide si segnarsi nuovamente come semplice utente
     {
         for(Judge judge: judgesList) {
@@ -759,6 +914,15 @@ public class Controller {
         this.currentUserRole = "User";
     }
 
+    /**
+     * Pubblica un opinione da parte del giudiche chiamante, per il team specificato.
+     *
+     * @param hackathonTitle titolo hackathon gestito
+     * @param updateTitle    titolo update del team
+     * @param teamTitle      nome del team che ha fatto l'update
+     * @param description    testo allegato all'opinione
+     * @return true se il team e l'update esistono, false altrimenti
+     */
     public boolean publishOpinion(String hackathonTitle, String updateTitle, String teamTitle, String description)    //Il giudice pubblica un'opinione per un update di un team.
     {
 
@@ -786,6 +950,15 @@ public class Controller {
 
         return false;
     }
+
+    /**
+     * Il giudice chiamante assegna un voto al team specificato.
+     *
+     * @param hackathonTitle titolo hackathon gestito
+     * @param teamTitle      nome team
+     * @param vote           voto
+     * @return true se il team esiste, falso altrimenti
+     */
     public boolean giveVoteToTeam(String hackathonTitle, String teamTitle, String vote)   //Nota: Nessuno vieta al giudice di mettere più voti, servirebbe un controllo su quello
     {
         int score = 0;
@@ -814,6 +987,12 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Il giudice chiamante accetta l'invito ad un hackathon, inviato da un organizzatore.
+     *
+     * @param hackathonTitle titolo hackathon
+     * @return  true se l'invito esiste, false altrimenti
+     */
     public boolean acceptJudgeInvite(String hackathonTitle) {
         for(Hackathon hackathon : hackathonsList) {
             if(hackathon.getTitle().equals(hackathonTitle)) {
@@ -834,6 +1013,12 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Il giudice chiamante rifiuta l'invito ad un hackathon, inviato ad un organizzatore.
+     *
+     * @param hackathonTitle titolo hackathon
+     * @return true se l'invito esiste, false altrimenti
+     */
     public boolean refuseJudgeInvite(String hackathonTitle)
     {
         for(Hackathon hackathon : hackathonsList) {
@@ -854,6 +1039,13 @@ public class Controller {
 
     /*Codice gestione home giudice*/
 
+    /**
+     * Il giudice chiamante pubblica una descrizione del problema da risolvere durante l'hackathon specificato.
+     *
+     * @param hackathonTitle     titolo hackathon
+     * @param problemDescription descrizione del problema
+     * @return true se l'hackathon specificato è gestito dal giudice, false altrimenti
+     */
     public boolean publishProblem(String hackathonTitle, String problemDescription)    //Pubblica descrizione del problema da risolvere per l'hackathon specificato
     {
         Judge judge = getCurrentJudge();
@@ -872,9 +1064,12 @@ public class Controller {
     }
 
 
-
-
-
+    /**
+     * Cerca il ruolo assegnato all'utente della piattaforma specificato.
+     *
+     * @param user un reference all'utente considerato per la ricerca
+     * @return ruolo dell'utente considerato
+     */
     public String searchForUserInRoles(User user)   //Controllo se l'utente è presente come organizzatore, partecipante o giudice
     {
         for(Leader leader: leadersList)
@@ -908,6 +1103,12 @@ public class Controller {
     }
 
 
+    /**
+     * Iscrive l'utente chiamante all'hackathon specificato.
+     *
+     * @param hackathonTitle titolo hackathon
+     * @return true se l'hackathon esiste, false altrimenti
+     */
     public boolean subscribeUserToHackathon(String hackathonTitle)
     {
         for(Hackathon h: hackathonsList) {
@@ -925,6 +1126,12 @@ public class Controller {
         }
         return false;
     }
+
+    /**
+     * Controlla se l'hackathon a cui il chiamante partecipa è terminato o meno.
+     *
+     * @return false se terminato, true altrimenti
+     */
     public boolean checkHackathonStatus()   //Controlla se l'hackathon è terminato o meno
     {
         if(currentUserRole.equals("Participant")) {
@@ -946,6 +1153,9 @@ public class Controller {
     }
 
 
+    /**
+     * Effettua il logout per l'utente chiamante.
+     */
     public void logout()
     {
         this.currentUserRole = null;
@@ -967,6 +1177,11 @@ public class Controller {
 
     //Metodi getter e setter
 
+    /**
+     * Il leader chiamante ottiene la descrizione del problema, presentato per l'hackathon.
+     *
+     * @return una matrice contenente nella sua prima riga la descrizione del problema ricavata
+     */
     public String[][] getProblemDescription()
     {
         Hackathon hackathon;
@@ -977,6 +1192,12 @@ public class Controller {
 
         return problemDescription;
     }
+
+    /**
+     * Ottiene le informazioni riguardanti gli inviti ricevuti dal partecipante chiamante.
+     *
+     * @return una matrice contenente nelle sue righe il nome del team che invita, il messaggio di invito e l'username del mittente (Il leader)
+     */
     public String[][] getParticipantInvites()
     {
         String[][] invitesData = null;
@@ -995,6 +1216,12 @@ public class Controller {
 
         return invitesData;
     }
+
+    /**
+     * Ottiene le informazioni riguardanti gli inviti ricevuti dal giudice chiamante.
+     *
+     * @return una matrice contenente nelle sue righe il titolo dell'hackathon per cui l'invito è valido, il messaggio di invito e l'username del mittente (L'organizzatore)
+     */
     public String[][] getJudgeInvites()
     {
         String[][] invitesData = null;
@@ -1014,6 +1241,12 @@ public class Controller {
     }
 
 
+    /**
+     * Ottiene le informazioni riguardanti i team partecipanti all'hackathon specificato e agli ultimi update pubblicati da questi, per il giudice chiamante.
+     *
+     * @param hackathonTitle titolo hackathon
+     * @return una matrice contenente nelle sue righe il nome del team, la descrizione dell'update più recente e il titolo dell'update più recente
+     */
     public String[][] getTeamsAndUpdates(String hackathonTitle)
     {
         String[][] teamsUpdatesInfo = null;
@@ -1038,6 +1271,12 @@ public class Controller {
         return teamsUpdatesInfo;
 
     }
+
+    /**
+     * Ottiene tutti i giudici disponibili per essere giudici, per l'organizzatore chiamante.
+     *
+     * @return una matrice contenente nelle sue righe il nome del giudice disponibile per hackathon
+     */
     public String[][] getJudges()
     {
         int judgesCount = judgesList.size();
@@ -1050,6 +1289,12 @@ public class Controller {
 
         return judges;
     }
+
+    /**
+     * Ottiene i risultati finali di un hackathon, per il leader chiamante.
+     *
+     * @return una matrice contenente nelle sue righe il nome del team ed il relativo punteggio di fine hackathon
+     */
     public String[][] getHackathonResults()
     {
         Leader leader = getCurrentLeader();
@@ -1065,6 +1310,12 @@ public class Controller {
         return hackathonResults;
 
     }
+
+    /**
+     * Ottiene il leader corrente.
+     *
+     * @return un reference al leader corrente
+     */
     public Leader getCurrentLeader()
     {
         for(Leader leader : leadersList) {
@@ -1075,6 +1326,13 @@ public class Controller {
         }
         return null;
     }
+
+    /**
+     * Ottiene le informazioni riguardanti un certo team, per il partecipante chiamante.
+     *
+     * @param table tabella contenente le informazioni sul team
+     * @return una matrice contenente nelle sue righe il nome del team, l'username del team leader ed il numero di partecipanti al team, per il team del partecipante chiamante
+     */
     public Object[][] getTeamInfoTable(Object[][] table) //Usato da un partecipante
     {
         Participant participant = getCurrentParticipant();
@@ -1086,6 +1344,12 @@ public class Controller {
 
         return table;
     }
+
+    /**
+     * Ottiene le informazioni riguardanti il leader del team, per il partecipante chiamante.
+     *
+     * @return un reference al leader trovato
+     */
     public Leader getTeamLeader()
     {
         Participant participant = getCurrentParticipant();
@@ -1098,6 +1362,13 @@ public class Controller {
         }
         return null;
     }
+
+    /**
+     * Ottiene le informazioni riguardanti gli hackathon organizzati dall'organizzatore chiamante.
+     *
+     * @param table tabella contenente le informazioni trovate
+     * @return una matrice contenente nelle sue righe il titolo dell'hackathon, la data d'inizio dell'hackathon (Se presente) e un reference all'hackathon organizzato dall'organizzatore chiamante.
+     */
     public Object[][] getOrganizedHackathonsTable(Object[][] table)
     {
         Organizer organizer = getCurrentOrganizer();
@@ -1113,6 +1384,12 @@ public class Controller {
         return table;
     }
 
+    /**
+     * Ottiene le informazioni riguardanti gli hackathon gestiti dal giudice chiamante.
+     *
+     * @param table tabella contenente le informazioni trovate
+     * @return una matrice contenente nelle sue righe il titolo dell'hackathon, la data d'inizio dell'hackathon (Se presente) e un reference all'hackathon gestito dal giudice chiamante.
+     */
     public Object[][] getJudgedHackathonsTable(Object[][] table)   //Fornisce gli hackathon per cui il giudice sta lavorando
     {
         Judge judge = getCurrentJudge();
@@ -1131,6 +1408,11 @@ public class Controller {
         return table;
     }
 
+    /**
+     * Ottiene il partecipante corrente.
+     *
+     * @return un reference al partecipante
+     */
     public Participant getCurrentParticipant()
     {
         for(Participant participant : participantsList) {
@@ -1141,6 +1423,12 @@ public class Controller {
         }
         return null;
     }
+
+    /**
+     * Ottiene l'organizzatore corrente.
+     *
+     * @return un reference all'organizzatore
+     */
     public Organizer getCurrentOrganizer()
     {
         for(Organizer organizer: organizersList) {
@@ -1151,6 +1439,11 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Ottiene il giudice corrente.
+     *
+     * @return un reference al giudice
+     */
     public Judge getCurrentJudge()
     {
         for(Judge judge: judgesList) {
@@ -1160,18 +1453,43 @@ public class Controller {
         }
         return null;
     }
+
+    /**
+     * Ottiene il ruolo dell'utente corrente.
+     *
+     * @return il ruolo dell'utente corrente
+     */
     public String getCurrentUserRole()
     {
         return currentUserRole;
     }
+
+    /**
+     * Ottiene l'username dell'utente corrente.
+     *
+     * @return username dell'utente corrente
+     */
     public String getCurrentUserUsername()
     {
         return currentUser.getUsername();
     }
+
+    /**
+     * Ottiene l'utente corrente.
+     *
+     * @return un reference all'utente corrente
+     */
     public User getCurrentUser()
     {
         return currentUser;
     }
+
+    /**
+     * Ottiene le informazioni riguardanti gli hackathon con iscrizioni aperte, per l'utente chiamante.
+     *
+     * @param data informazioni sugli hackathon con iscrizioni aperte
+     * @return una matrice contenente nelle sue righe il titolo, la data d'inizio(Se presente l'hackathon ha chiuso le iscrizioni) e un reference all'hackathon per cui le iscrizioni sono aperte
+     */
     public Object[][] getUserTableData(Object [][] data)    //Questo metodo serve ad ottenere i dati da immettere nella JTable mostrata nella home
     {
         int dataSize = this.getNumberOfHackathonWithOpenSubscriptions();    //per inizializzare la matrice "data" devo conoscere il numero di hackathon con iscrizioni aperte
@@ -1189,7 +1507,11 @@ public class Controller {
         return data;
     }
 
-
+    /**
+     * Ottiene il numero di hackathon con iscrizioni aperte.
+     *
+     * @return il numero di hackathon con iscrizioni aperte
+     */
     public int getNumberOfHackathonWithOpenSubscriptions()
     {
         int openSubCount = 0;
@@ -1202,6 +1524,11 @@ public class Controller {
         return openSubCount;
     }
 
+    /**
+     * Ottiene le opinioni riguardo l'update di team più recente, per il leader chiamante.
+     *
+     * @return una matrice contenente nelle sue righe messaggio e nome del giudice associati all'opinione per l'update più recente, pubblicato dal leader chiamante
+     */
     public String[][] getLatestUpdateOpinions() //Usato da leader
     {
         Leader leader = getCurrentLeader();
